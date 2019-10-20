@@ -38,4 +38,4 @@ app.post('/event/checkin/:eventCode', function (req, res) {
   res.status(httpH.HTTPSTATUS.CREATED).end();
 });
 
-app.listen(PORT, () => console.log('Server listening on port ${PORT}.'));
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));
