@@ -23,7 +23,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.post('/event/checkin/:eventCode', function (req, res) {
   if (!httpH.requireJsonBody(res, req.body)) { return; }
 
-  // Extract fields)
+  // Extract fields
   const firstName = req.body.firstName;
   if (!httpH.requireJsonField(res, firstName, 'firstName')) { return; };
   const lastName = req.body.lastName;

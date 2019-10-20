@@ -39,10 +39,10 @@ Key | Value
 
 Status | Meaning
  --- | ---
-201 Created | Check-in successful.
-400 Bad Request | A field in the request body was missing or invalid.
-409 Conflict | Email already checked in.
-500 Internal Server Error | The server made an error and was unable to recover.
+`201 Created` | Check-in successful.
+`400 Bad Request` | A field in the request body was missing or invalid.
+`409 Conflict` | Email already checked in.
+`500 Internal Server Error` | The server made an error and was unable to recover.
 
 #### JSON Body
 
