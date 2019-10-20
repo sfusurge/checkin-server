@@ -13,3 +13,9 @@ npm start
 ```
 node app.js
 ```
+
+## Sending a Request
+
+The official API specification is located [here](https://github.com/sfusurge/checkin-server/blob/master/api-specification.md).
+
+To send a request using a shell script, see the sample scripts [here](https://github.com/sfusurge/checkin-server/blob/master/scripts-api/checkin).
