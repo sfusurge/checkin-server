@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cd "$(dirname "$0")" || return
+BASE_URL="$(./base-url)"
+
+CODE="$1"
+FIRSTNAME="$2"
+LASTNAME="$3"
+EMAIL="$4"
+
+curl \
+  --include \
+  --request POST  \
+  --header "Content-Type: application/json" \
+  --data '
+{
+  "firstName": "'"$FIRSTNAME"'",
+  "lastName": "'"$LASTNAME"'",
+  "email": "'"$EMAIL"'"
+}' \
+  "$BASE_URL"/event/checkin/"$CODE"
