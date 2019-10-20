@@ -14,10 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use(function (req, res, next) {
-  console.log(
-    'Received request: ' + req.method + ' ' + req.url + ' ' +
-    JSON.stringify(req.body)
-  );
+  console.log('Received request: ' + httpH.stringifyReq(req));
   next();
 });
 

@@ -1,9 +1,10 @@
-// This Javascript module contains helper methods for handling HTTP validation
-// and return statuses.
+// This Javascript module contains methods for HTTP validation and statuses.
 //
 // Use this module as follows:
 //     const httpH = require('./httpHelpers');
 //     httph.requireJsonBody(res, firstName);
+
+// ENUMS
 
 exports.HTTPSTATUS = {
   OK: 200,
@@ -12,6 +13,8 @@ exports.HTTPSTATUS = {
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500
 };
+
+// HELPER FUNCTIONS
 
 function isEmptyOrNull(obj) {
   return !obj || Object.keys(obj).length === 0;
@@ -24,8 +27,18 @@ function setHttpError(res, status, msg) {
   });
 }
 
-// Sets the HTTP error before exiting if the body is not present.
-// Returns whether the body was present.
+// EXPORTED FUNCTIONS
+
+// This function compiles the request method, URL, and JSON body into a string.
+exports.stringifyReq = function(req) {
+  if (req == {}) {
+    return "";
+  }
+  return req.method + ' ' + req.url + ' ' + JSON.stringify(req.body);
+}
+
+// This function sets the HTTP error if the body is null or empty.
+// Returns: Whether or not the body was present.
 exports.requireJsonBody = function(res, field) {
   if (isEmptyOrNull(field)) {
     setHttpError(res, HTTPSTATUS.BAD_REQUEST,
@@ -35,8 +48,8 @@ exports.requireJsonBody = function(res, field) {
   return true;
 }
 
-// Sets the HTTP error before exiting if the field is not present.
-// Returns whether the field was present.
+// Sets the HTTP error if the field is not present.
+// Returns: Whether or not the field was present.
 exports.requireJsonField = function(res, field, fieldName) {
   if (!field) {
     setHttpError(res, HTTPSTATUS.BAD_REQUEST,
