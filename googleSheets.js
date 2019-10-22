@@ -70,13 +70,17 @@ function getNewToken(oAuth2Client, callback) {
   });
 }
 
+function hasEnvCredentials() {
+  return process.env.GOOGLE_CLIENT_EMAIL && process.env.GOOGLE_PRIVATE_KEY;
+}
+
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
  * given callback function.
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials, callback) {
+function authorizeLocalCredentials(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
@@ -92,19 +96,41 @@ function authorize(credentials, callback) {
   });
 }
 
+function authorizeEnvCredentials() {
+  return new Promise(resolve => {
+      const authFactory = new GoogleAuth();
+      const jwtClient = new authFactory.JWT(
+          process.env.GOOGLE_CLIENT_EMAIL,
+          null,
+          process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), 
+          SCOPES
+      );
+
+      jwtClient.authorize(() => resolve(jwtClient));
+  });
+}
+
 // EXPORTS
 
 // This function accesses the API, given any template function.
 // The provided function must take in one parameter (auth) and complete
 // all the required steps for a single operation.
 exports.api = function(func) {
-  fs.readFile(CREDENTIALS_FILE, (err, content) => {
-    if (err) {
-      return console.log('Error loading client secret file:', err);
-    }
-
-    authorize(JSON.parse(content), func);
-  });
+  if (hasEnvCredentials()) {
+    authorizeEnvCredentials()
+      .then(func)
+      .catch((err) => {
+          console.log('Authentication Error:', err);
+      });
+  }
+  else {
+    fs.readFile(CREDENTIALS_FILE, (err, content) => {
+      if (err) {
+        return console.log('Error loading client secret file:', err);
+      }
+      authorizeLocalCredentials(JSON.parse(content), func);
+    });
+  }
 }
 
 /**
