@@ -41,7 +41,7 @@ exports.stringifyReq = function(req) {
 // Returns: Whether or not the body was present.
 exports.requireJsonBody = function(res, field) {
   if (isEmptyOrNull(field)) {
-    setHttpError(res, HTTPSTATUS.BAD_REQUEST,
+    setHttpError(res, exports.HTTPSTATUS.BAD_REQUEST,
       'A JSON request body and header is required.');
     return false;
   }
@@ -52,7 +52,7 @@ exports.requireJsonBody = function(res, field) {
 // Returns: Whether or not the field was present.
 exports.requireJsonField = function(res, field, fieldName) {
   if (!field) {
-    setHttpError(res, HTTPSTATUS.BAD_REQUEST,
+    setHttpError(res, exports.HTTPSTATUS.BAD_REQUEST,
       'Field ' + fieldName + ' is required');
     return false;
   }
