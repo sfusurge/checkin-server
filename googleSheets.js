@@ -24,6 +24,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
+const {GoogleAuth, JWT, OAuth2Client} = require('google-auth-library');
 
 // The file credentials.json stores the downloaded API credentials from
 // Google Cloud Platform.
@@ -98,8 +99,8 @@ function authorizeLocalCredentials(credentials, callback) {
 
 function authorizeEnvCredentials() {
   return new Promise(resolve => {
-      const authFactory = new GoogleAuth();
-      const jwtClient = new authFactory.JWT(
+      const auth = new GoogleAuth();
+      const jwtClient = new JWT(
           process.env.GOOGLE_CLIENT_EMAIL,
           null,
           process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), 
@@ -117,6 +118,7 @@ function authorizeEnvCredentials() {
 // all the required steps for a single operation.
 exports.api = function(func) {
   if (hasEnvCredentials()) {
+    console.log('Using Service Account credentials');
     authorizeEnvCredentials()
       .then(func)
       .catch((err) => {
@@ -124,6 +126,7 @@ exports.api = function(func) {
       });
   }
   else {
+    console.log('Using local credentials');
     fs.readFile(CREDENTIALS_FILE, (err, content) => {
       if (err) {
         return console.log('Error loading client secret file:', err);

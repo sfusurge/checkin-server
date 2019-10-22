@@ -29,3 +29,16 @@ Google will guide you through a process to authenticate the server. This will on
 The official API specification is located [here](https://github.com/sfusurge/checkin-server/blob/master/api-specification.md).
 
 To send a request using a shell script, see the sample scripts [here](https://github.com/sfusurge/checkin-server/blob/master/scripts-api/checkin).
+
+## Deployment (Heroku)
+
+After creating the Google Cloud Platform project in _Setup_ above, create a new set of credentials for the Service Account. Download the secret file and keep it safe.
+
+Create a Heroku application with whichever method you prefer. In your deployment environment, set the following environment variables using values from the secret file:
+
+Environment Variable | Value from Service Account Credentials
+--- | ---
+`GOOGLE_CLIENT_EMAIL` | `client_email`
+`GOOGLE_PRIVATE_KEY` | `private_key`
+
+Ensure that the client email has access to the Sheet; share access to it manually if necessary.
