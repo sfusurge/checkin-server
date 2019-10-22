@@ -60,4 +60,3 @@ exports.requireJsonField = function(res, field, fieldName) {
   }
   return true;
 }
-
