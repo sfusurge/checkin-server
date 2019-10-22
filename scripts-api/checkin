@@ -8,14 +8,18 @@ FIRSTNAME="$2"
 LASTNAME="$3"
 EMAIL="$4"
 
-curl \
-  --include \
-  --request POST  \
-  --header "Content-Type: application/json" \
-  --data '
-{
-  "firstName": "'"$FIRSTNAME"'",
-  "lastName": "'"$LASTNAME"'",
-  "email": "'"$EMAIL"'"
-}' \
-  "$BASE_URL"/event/checkin/"$CODE"
+if [ $# -ge 4 ] ; then
+    curl \
+      --include \
+      --request POST  \
+      --header "Content-Type: application/json" \
+      --data '
+    {
+      "firstName": "'"$FIRSTNAME"'",
+      "lastName": "'"$LASTNAME"'",
+      "email": "'"$EMAIL"'"
+    }' \
+      "$BASE_URL"/event/checkin/"$CODE"
+else
+    echo "Usage: ./checkin code firstname lastname email"
+fi
