@@ -129,7 +129,7 @@ app.post('/event/checkin/:eventCode', function (req, res) {
 
   checkIntoEvent(req.params.eventCode, firstName, lastName, email);
 
-  res.status(httpH.HTTPSTATUS.CREATED).end();
+  res.status(httpH.HTTPSTATUS.CREATED).send({});
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));
