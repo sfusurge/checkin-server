@@ -2,6 +2,7 @@
 //
 // Use this module as follows:
 //
+//     const {google} = require('googleapis');
 //     const sheets = require('./googleSheets');
 //
 //     function checkIntoEvent() {

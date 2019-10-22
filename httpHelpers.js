@@ -20,13 +20,6 @@ function isEmptyOrNull(obj) {
   return !obj || Object.keys(obj).length === 0;
 }
 
-function setHttpError(res, status, msg) {
-  res.status(status).send({
-    'status': status,
-    'message': msg
-  });
-}
-
 // EXPORTS
 
 exports.HTTPSTATUS = HTTPSTATUS;
@@ -39,11 +32,18 @@ exports.stringifyReq = function(req) {
   return req.method + ' ' + req.url + ' ' + JSON.stringify(req.body);
 }
 
+exports.setHttpError = function(res, status, msg) {
+  res.status(status).send({
+    'status': status,
+    'message': msg
+  });
+}
+
 // This function sets the HTTP error if the body is null or empty.
 // Returns: Whether or not the body was present.
 exports.requireJsonBody = function(res, field) {
   if (isEmptyOrNull(field)) {
-    setHttpError(res, HTTPSTATUS.BAD_REQUEST,
+    exports.setHttpError(res, HTTPSTATUS.BAD_REQUEST,
       'A JSON request body and header is required.');
     return false;
   }
@@ -54,7 +54,7 @@ exports.requireJsonBody = function(res, field) {
 // Returns: Whether or not the field was present.
 exports.requireJsonField = function(res, field, fieldName) {
   if (!field) {
-    setHttpError(res, HTTPSTATUS.BAD_REQUEST,
+    exports.setHttpError(res, HTTPSTATUS.BAD_REQUEST,
       'Field ' + fieldName + ' is required');
     return false;
   }
