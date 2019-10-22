@@ -33,6 +33,7 @@ exports.stringifyReq = function(req) {
 }
 
 exports.setHttpError = function(res, status, msg) {
+  console.log("HTTP " + status + ": " + msg);
   res.status(status).send({
     'status': status,
     'message': msg
