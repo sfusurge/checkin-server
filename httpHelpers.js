@@ -6,7 +6,7 @@
 
 // ENUMS
 
-exports.HTTPSTATUS = {
+const HTTPSTATUS = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
@@ -27,7 +27,9 @@ function setHttpError(res, status, msg) {
   });
 }
 
-// EXPORTED FUNCTIONS
+// EXPORTS
+
+exports.HTTPSTATUS = HTTPSTATUS;
 
 // This function compiles the request method, URL, and JSON body into a string.
 exports.stringifyReq = function(req) {
@@ -41,7 +43,7 @@ exports.stringifyReq = function(req) {
 // Returns: Whether or not the body was present.
 exports.requireJsonBody = function(res, field) {
   if (isEmptyOrNull(field)) {
-    setHttpError(res, exports.HTTPSTATUS.BAD_REQUEST,
+    setHttpError(res, HTTPSTATUS.BAD_REQUEST,
       'A JSON request body and header is required.');
     return false;
   }
@@ -52,9 +54,10 @@ exports.requireJsonBody = function(res, field) {
 // Returns: Whether or not the field was present.
 exports.requireJsonField = function(res, field, fieldName) {
   if (!field) {
-    setHttpError(res, exports.HTTPSTATUS.BAD_REQUEST,
+    setHttpError(res, HTTPSTATUS.BAD_REQUEST,
       'Field ' + fieldName + ' is required');
     return false;
   }
   return true;
 }
+
